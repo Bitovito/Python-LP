@@ -9,7 +9,7 @@ select = re.compile(r'SELECT\s([A-Za-z]+(,\s[A-Za-z]+)*|\*)\sFROM\s([A-Za-z]+)  
 
 insert = re.compile(r'INSERT\sINTO\s([A-Z]+)\s(\([A-Z]+(,\s[A-Z]+)*\))\sVALUES\s(\(\w+(,\s\w+)*\));')
 #                     INSERT  INTO    TABLA     (NOMBRE, APELLIDO, CASA)   VALUES    (JUAN, CHI, OMEGA);
-update = re.compile(r'UPDATE\s([A-Za-z]+)\sSET\s([A-Za-z]+\s=\s\w+(,\s[A-Z]+\s=\s\w+)*)\sWHERE\s\w+\s=\s\w+(\s(AND|OR)\s\w+\s=\s\w+)*;')
+update = re.compile(r'UPDATE\s([A-Za-z]+)\sSET\s([A-Za-z]+\s=\s\w+(,\s[A-Z]+\s=\s\w+)*)\sWHERE\s(\w+\s=\s\w+)(\s(AND|OR)\s\w+\s=\s\w+)*;')
 
 mach = update.search(entrada)
 x = mach
