@@ -1,21 +1,32 @@
 import re
 entrada = 'x'
-
-select = re.compile(r'SELECT\s([A-Z]+(,\s\w+)*|\*)\sFROM\s([A-Z]+)(\s(INNER\sJOIN)\s([A-Z]+))?((\sWHERE\s([A-Z]+\s=\s\w+)((AND|OR)\s([A-Z]+\s=\s\w+))*)?(\s(ORDER\sBY)\s([A-Z]\s(ASC|DESC))))?')
-insert = re.compile(r'INSERT\sINTO\s([A-Z]+)\s\(([A-Z]+(,[A-Z]+)*)\)\sVALUES\s\((\w+(,\w+)*)\);')
-update = re.compile(r'UPDATE\s([A-Z]+)\sSET\s([A-Z]+\s=\s\w+(,[A-Z]+\s=\s\w+)*)\sWHERE\s([A-Z]+\s=\s\w+(\s(AND|OR)\s[A-Z]+\s=\s\w+))*;')
-#
+#c = '(\s[!-~])'
+s = r'SELECT\s(\w+(,\s\w+)*|\*)\sFROM\s(\w+)'
+i = r'(\s(INNER\sJOIN)\s(\w+))?'
+w = r'((\sWHERE\s(\w+\s=\s\w+)((AND|OR)\s(\w+\s=\s\w+))*)?'
+o = r'(\s(ORDER\sBY)\s([A-Z]\s(ASC|DESC))))?'
+select = re.compile(s+i+w+o)
+###
+ii = r'INSERT\sINTO\s(\w+)\s\((\w+(,\w+)*)\)'
+v = r'\sVALUES\s\((\w+(,\w+)*)\);'
+insert = re.compile(ii+v)
+###
+u = r'UPDATE\s(\w+)\sSET\s(\w+\s=\s\w+(,\w+\s=\s\w+)*)'
+wh = r'\sWHERE\s(\w+\s=\s\w+(\s(AND|OR)\s\w+\s=\s\w+))*;'
+update = re.compile(u+wh)
+###
 while entrada != 'salir':
-
+    mach = 0
     entrada = input()
-    """
+
     if select.search(entrada):
         mach = select.search(entrada)
         columnas = mach.group(1).split(', ')
-        tabla = mach.group(2)
-        print (mach)
+        tabla = mach.group(3)
+        #conds = (w.search(entrada)).group(5)
+        #print(conds)
         #¿Cambio los tipos de columnas y tabla?
-"""
+
     if insert.search(entrada):
         mach = insert.search(entrada)
         tabla = mach.group(1)
@@ -30,7 +41,7 @@ while entrada != 'salir':
         mach = update.search(entrada)
         tabla = mach.group(1)
         cambios = mach.group(2).split(',')
-        cond = mach.group(4)
+        conds = mach.group(4)
 
-    elif entrada != 'salir':
+    elif not mach and entrada!='salir':
         print('Error de sintaxis. Comando no valido.')
