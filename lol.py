@@ -1,11 +1,18 @@
 import re
-entrada = 'x'
+def condSplit(conds):
+    lista=[]
+    q = conds.split('OR')
+    for c in q:
+        x = c.split('AND')
+        lista.append(x)
+    return lista
+entrada = 'xS'
 #c = '(\s[!-~])'
-s = r'SELECT\s(\w+(,\s\w+)*|\*)\sFROM\s(\w+)'
-i = r'(\s(INNER\sJOIN)\s(\w+))?'
-w = r'((\sWHERE\s(\w+\s=\s\w+)((AND|OR)\s(\w+\s=\s\w+))*)?'
-o = r'(\s(ORDER\sBY)\s([A-Z]\s(ASC|DESC))))?'
-select = re.compile(s+i+w+o)
+s = r'SELECT\s(\w+(?:,\s\w+)*|\*)\sFROM\s(\w+)'
+i = r'(?:\sINNER\sJOIN\s(\w+))'
+w = r'(?:\sWHERE\s((?:\w+\s=\s\w+)(?:\s(?:AND|OR)\s\w+\s=\s\w+)*))'#les quite el ()?     #Le puse un :? al (AND|OR)
+o = r'(?:\sORDER\sBY\s(\w+\s(?:ASC|DESC)))'
+select = re.compile(s+i+r'?'+w+r'?'+o+r'?')
 ###
 ii = r'INSERT\sINTO\s(\w+)\s\((\w+(,\w+)*)\)'
 v = r'\sVALUES\s\((\w+(,\w+)*)\);'
@@ -19,29 +26,44 @@ while entrada != 'salir':
     mach = 0
     entrada = input()
 
-    if select.search(entrada):
+    if select.search(entrada):###### OJO QUE ESTA WEA FIJO TIRA ERROR, Y ACTUALMENTE NADA ES OPCIONAL
         mach = select.search(entrada)
-        columnas = mach.group(1).split(', ')
-        tabla = mach.group(3)
-        #conds = (w.search(entrada)).group(5)
-        #print(conds)
-        #¿Cambio los tipos de columnas y tabla?
+        columnas = re.search(re.compile(s), entrada).group(1).split(', ')
+        print(columnas)
+        tabla = re.search(re.compile(s), entrada).group(2)
+        print(tabla)
+        if re.search(i, entrada):
+            union = re.search(re.compile(i), entrada).group(1)
+            print(union)
+        if re.search(w, entrada):
+            conds = re.search(re.compile(w), entrada).group(1)
+            c = condSplit(conds)
+            print(c)
+        if re.search(o, entrada):
+            orden = re.search(re.compile(o), entrada).group(1)
+            print(orden)
 
     if insert.search(entrada):
         mach = insert.search(entrada)
         tabla = mach.group(1)
-        columnas = mach.group(2).split(',')
-        valores = mach.group(4).split(',')
-        print(tabla,columnas,valores)
+        print(tabla)
+        columnas = mach.group(2).replace('(','').replace(')','').split(',')
+        print(columnas)
+        valores = mach.group(4).replace('(','').replace(')','').split(',')
+        print(valores)
         #¿Cambio los tipos de valores?
         if len(columnas) != len(valores):
             print('Error de sintaxis. Comando no valido.')
 
     elif update.search(entrada):
-        mach = update.search(entrada)
-        tabla = mach.group(1)
-        cambios = mach.group(2).split(',')
-        conds = mach.group(4)
+        mach = re.search(update, entrada)
+        tabla = re.search(re.compile(u), entrada).group(1)
+        print(tabla)
+        cambios = re.search(re.compile(u), entrada).group(2).split(', ')
+        print(cambios)
+        conds = re.search(re.compile(wh), entrada).group(1)
+        c = condSplit(conds)
+        print(c)
 
     elif not mach and entrada!='salir':
         print('Error de sintaxis. Comando no valido.')
