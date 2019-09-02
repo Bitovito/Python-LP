@@ -6,7 +6,7 @@ def INSERT(tabla,columna,valores):
     col_aux = []
     val_aux = []
     for linea in arch:
-        if i = 1:
+        if i == 1:
             lista_col = linea.strip().split(',')
             i+=1
     arch.close()
