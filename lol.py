@@ -1,4 +1,28 @@
 import re
+def INSERT(tabla,columna,valores):
+    arch = open(tabla+".csv",'r')
+    lista_col = []
+    i = 1
+    col_aux = []
+    val_aux = []
+    for linea in arch:
+        if i = 1:
+            lista_col = linea.strip().split(',')
+            i+=1
+    arch.close()
+    for x in lista_col:
+        for y in columna:             
+            if y == x:
+                col_aux.append(y)
+                val_aux.append(valores[columna.index(y)])
+        if (x not in columna):
+            val_aux.append(' ')
+    arch = open(tabla+".csv",'a')
+    a = ','.join(val_aux)
+    arch.write(a)
+    arch.write('\n')
+    return ('Se ha insertado 1 fila')
+
 def condSplit(conds):
     lista=[]
     q = conds.split('OR')
@@ -59,7 +83,7 @@ while entrada != 'salir':
         mach = re.search(update, entrada)
         tabla = re.search(re.compile(u), entrada).group(1)
         print(tabla)
-        cambios = re.search(re.compile(u), entrada).group(2).split(', ')
+        cambios = re.search(re.compile(u), entrada).group(2)
         print(cambios)
         conds = re.search(re.compile(wh), entrada).group(1)
         c = condSplit(conds)
