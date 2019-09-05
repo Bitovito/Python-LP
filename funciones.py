@@ -9,11 +9,26 @@ def condSplit(conds):
     return lista
 
 def selectSelect (columnas, tabla, otros):
-    if otros[0] == 'x':#si no hay INNER JOIN
-        file = open(tabla+'.csv','r')
-        
-        
-        print('x')
+    file = open(tabla+'.csv','r')
+    if otros[0] == 'x':                             #si no hay INNER JOIN
+        if otros[1] != 'x':                         #si no hay INNER JOIN y hay WHERE
+            if otros[2] != 'x':                     #si no hay INNER JOIN y hay WHERE y hay ORDER BY
+                print('xd')
+            else:                                   #si no hay INNER JOIN y hay WHERE y no hay ORDER BY
+                print('xd')
+        else:
+            if otros[2] != 'x':                     #si no hay INNER JOIN y no hay WHERE y hay ORDER BY
+                print('xd')
+            else:                                   #si no hay INNER JOIN y no hay WHERE y no hay ORDER  SIMPLE
+                print('xd')
+    else:
+        arch2 = otros[0]
+        otherFile = open(arch2+'csv','r')   
+        print('xd')
+        if otros[2] != 'x':                     #si hay INNER JOIN y hay ORDER BY
+            print('xd')
+        else:                                   #si hay INNER JOIN y no hay ORDER BY
+            print('xd')
 
     print('xd')
     
