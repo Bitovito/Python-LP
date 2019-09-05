@@ -16,3 +16,68 @@ def selectSelect (columnas, tabla, otros):
         print('x')
 
     print('xd')
+    
+def INSERT(tabla,columna,valores):
+    arch = open(tabla+".csv",'r')
+    lista_col = []
+    i = 1
+    col_aux = []
+    val_aux = []
+    for linea in arch:
+        if i == 1:
+            lista_col = linea.strip().split(',')
+            i+=1
+    arch.close()
+    for x in lista_col:
+        for y in columna:             
+            if y == x:
+                col_aux.append(y)
+                val_aux.append(valores[columna.index(y)])
+        if (x not in columna):
+            val_aux.append(' ')
+    arch = open(tabla+".csv",'a')
+    a = ','.join(val_aux)
+    arch.write(a)
+    arch.write('\n')
+    
+    arch.close()
+    print('Se ha insertado 1 fila')
+    return
+
+def UPDATE(tabla,cambios,conds):
+    arch = open(tabla+".csv",'r')
+    lista_arch = []
+    for linea in arch:
+        lista.append(linea.strip().split(','))
+    arch.close()
+    lista_col = lista_arch[0]
+    cumple = 0
+    lista_cumple = []
+    arch = open('Alumnos.csv','r')
+    for linea in lista_arch:
+        for bloqueOR in cond:
+                for elemento in linea:
+                        for bloqueAND in bloqueOR:
+                                And = re.split(r'=',bloqueAND)
+                                if And[1].strip() == elemento and And[0].strip() == lista_col[linea.index(elemento)]:
+                                        cumple+=1
+                if cumple == len(bloqueOR):
+                        lista_cumple.append(lista_arch.index(linea))
+                cumple = 0
+    arch.close()
+    arch = open('Alumnos.csv','w')
+    for x in lista_cumple:
+            for linea in lista_arch:
+                    for elemento in linea:
+                            if lista_arch.index(linea) == x:
+                                    for cambio in cambios:
+                                            string = re.split(r'=',cambio)
+                                            if linea.index(elemento) == lista_col.index(string[0].strip()):
+                                                    linea[linea.index(elemento)] = string[1].strip()
+                                                    break
+    for linea in lista_arch:
+            arch.write(','.join(linea))
+            arch.write('\n')
+    arch.close()
+    print('Se ha(n) actualizado'+str(len(lista_cumple)+'fila(s)')
+    return
