@@ -1,4 +1,6 @@
 import re
+from funciones import *
+
 def INSERT(tabla,columna,valores):
     arch = open(tabla+".csv",'r')
     lista_col = []
@@ -23,15 +25,8 @@ def INSERT(tabla,columna,valores):
     arch.write('\n')
     return ('Se ha insertado 1 fila')
 ########################################################################################################################################
-def condSplit(conds):
-    lista=[]
-    q = conds.split('OR')
-    for c in q:
-        x = c.split('AND')
-        lista.append(x)
-    return lista
+
 entrada = 'xS'
-k = r'[\x00-\x7F]+'
 s = r'SELECT\s([\x00-\x7F]+(?:,\s[\x00-\x7F]+)*|\*)\sFROM\s([\x00-\x7F]+)'
 i = r'(?:\sINNER\sJOIN\s([\x00-\x7F]+))'
 w = r'(?:\sWHERE\s((?:[\x00-\x7F]+\s=\s[\x00-\x7F]+)(?:\s(?:AND|OR)\s[\x00-\x7F]+\s=\s[\x00-\x7F]+)*))'#les quite el ()?     #Le puse un :? al (AND|OR)
@@ -56,16 +51,28 @@ while entrada != 'salir':
         print(columnas)
         tabla = re.search(re.compile(s), entrada).group(2)
         print(tabla)
+        otros = []
         if re.search(i, entrada):
             union = re.search(re.compile(i), entrada).group(1)
             print(union)
+            otros.append(union)
+        else:
+            otros.append('x')
         if re.search(w, entrada):
             conds = re.search(re.compile(w), entrada).group(1)
             c = condSplit(conds)
             print(c)
+            otros.append(c)
+        else:
+            otros.append('x')
         if re.search(o, entrada):
             orden = re.search(re.compile(o), entrada).group(1)
             print(orden)
+            otros.append(orden)
+        else:
+            otros.append('x')
+        print(otros)
+
 
     if insert.search(entrada):
         mach = insert.search(entrada)
