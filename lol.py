@@ -22,7 +22,7 @@ def INSERT(tabla,columna,valores):
     arch.write(a)
     arch.write('\n')
     return ('Se ha insertado 1 fila')
-
+########################################################################################################################################
 def condSplit(conds):
     lista=[]
     q = conds.split('OR')
@@ -31,19 +31,19 @@ def condSplit(conds):
         lista.append(x)
     return lista
 entrada = 'xS'
-#c = '(\s[!-~])'
-s = r'SELECT\s(\w+(?:,\s\w+)*|\*)\sFROM\s(\w+)'
-i = r'(?:\sINNER\sJOIN\s(\w+))'
-w = r'(?:\sWHERE\s((?:\w+\s=\s\w+)(?:\s(?:AND|OR)\s\w+\s=\s\w+)*))'#les quite el ()?     #Le puse un :? al (AND|OR)
-o = r'(?:\sORDER\sBY\s(\w+\s(?:ASC|DESC)))'
+k = r'[\x00-\x7F]+'
+s = r'SELECT\s([\x00-\x7F]+(?:,\s[\x00-\x7F]+)*|\*)\sFROM\s([\x00-\x7F]+)'
+i = r'(?:\sINNER\sJOIN\s([\x00-\x7F]+))'
+w = r'(?:\sWHERE\s((?:[\x00-\x7F]+\s=\s[\x00-\x7F]+)(?:\s(?:AND|OR)\s[\x00-\x7F]+\s=\s[\x00-\x7F]+)*))'#les quite el ()?     #Le puse un :? al (AND|OR)
+o = r'(?:\sORDER\sBY\s([\x00-\x7F]+\s(?:ASC|DESC)))'
 select = re.compile(s+i+r'?'+w+r'?'+o+r'?')
 ###
-ii = r'INSERT\sINTO\s(\w+)\s\((\w+(,\w+)*)\)'
-v = r'\sVALUES\s\((\w+(,\w+)*)\);'
+ii = r'INSERT\sINTO\s([\x00-\x7F]+)\s\(([\x00-\x7F]+(,[\x00-\x7F]+)*)\)'
+v = r'\sVALUES\s\(([\x00-\x7F]+(,[\x00-\x7F]+)*)\);'
 insert = re.compile(ii+v)
 ###
-u = r'UPDATE\s(\w+)\sSET\s(\w+\s=\s\w+(,\w+\s=\s\w+)*)'
-wh = r'\sWHERE\s(\w+\s=\s\w+(\s(AND|OR)\s\w+\s=\s\w+))*;'
+u = r'UPDATE\s([\x00-\x7F]+)\sSET\s([\x00-\x7F]+\s=\s[\x00-\x7F]+(,[\x00-\x7F]+\s=\s[\x00-\x7F]+)*)'
+wh = r'\sWHERE\s([\x00-\x7F]+\s=\s[\x00-\x7F]+(\s(AND|OR)\s[\x00-\x7F]+\s=\s[\x00-\x7F]+))*;'
 update = re.compile(u+wh)
 ###
 while entrada != 'salir':
