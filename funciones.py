@@ -63,7 +63,7 @@ def UPDATE(tabla,cambios,conds):
     arch = open(tabla+".csv",'r')
     lista_arch = []
     for linea in arch:
-        lista.append(linea.strip().split(','))
+        lista_arch.append(linea.strip().split(','))
     arch.close()
     lista_col = lista_arch[0]
     cumple = 0
@@ -94,5 +94,5 @@ def UPDATE(tabla,cambios,conds):
             arch.write(','.join(linea))
             arch.write('\n')
     arch.close()
-    print('Se ha(n) actualizado'+str(len(lista_cumple)+'fila(s)')
+    print('Se ha(n) actualizado'+str(len(lista_cumple)+'fila(s)'))
     return
