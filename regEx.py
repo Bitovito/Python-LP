@@ -48,6 +48,7 @@ while entrada != 'salir':
         else:
             otros.append('x')
         print(otros)
+        Select(columnas,tabla,otros)
 
 
     if insert.search(entrada):
@@ -61,6 +62,7 @@ while entrada != 'salir':
         #¿Cambio los tipos de valores?
         if len(columnas) != len(valores):
             print('Error de sintaxis. Comando no valido.')
+        INSERT(tabla,columnas,valores)
 
     elif update.search(entrada):
         mach = re.search(update, entrada)
@@ -71,6 +73,7 @@ while entrada != 'salir':
         conds = re.search(update, entrada).group(3)#Lista de listas, cada sub-lista es un or y en cada una van los ANDs (Nombre = algo)
         c = condSplit(conds)
         print('Condiciones: ',c)
+        UPDATE(tabla,cambios,conds)
 
     elif not mach and entrada!='salir':
         print('Error de sintaxis. Comando no valido.')
