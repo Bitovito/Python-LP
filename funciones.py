@@ -196,6 +196,24 @@ def Select(columnas, tabla, otros):
                                         lista_filas_aux = []
                                         Ordenador = re.split(r' ',otros[2])[0]
                                         lugar = lista_col.index(Ordenador)
+                                        for elementos in lista_filas:
+                                                for elemento in elementos:
+                                                        if elementos.index(elemento) == lugar:
+                                                                lista_elementos_aux.append(elemento)
+                                        if 'ASC' in otros[2]:
+                                                lista_elementos_aux.sort().reverse()
+                                                for elemento in lista_elementos_aux:
+                                                        for elementos in lista_filas:
+                                                                if elemento in elementos:
+                                                                        lista_filas_aux.append('  '.join(elementos))
+                                        else:
+                                                lista_elementos_aux.sort()
+                                                for elemento in lista_elementos_aux:
+                                                        for elementos in lista_filas:
+                                                                if elemento in elementos:
+                                                                        lista_filas_aux.append('  '.join(elementos))
+                                        for x in lista_filas_aux:
+                                                print (x)
                                         
                         else:                                   #si no hay INNER JOIN y hay WHERE y no hay ORDER BY LISTOO
                                 if '*' not in columnas:
