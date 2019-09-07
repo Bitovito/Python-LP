@@ -5,7 +5,7 @@ entrada = 'xS'
 ###
 s = r'SELECT *([^\x20]+ *(?: *, *[^\x20]+ *)*) *FROM ([^\x20]+ *);?'
 i = r'(?: *INNER *JOIN *([^\x20]+))'
-w = r'(?: *WHERE *((?:[^\x20]+ *= *[^\x20]+|[^\x20]+ *= *\'[^\27]+\')(?: *(?:AND|OR) *(?:[^\x20]+ *= *[^\x20]+|[^\x20]+ *= *\'[^\27]+\'))*);?)'#les quite el ()?     #Le puse un :? al (AND|OR)
+w = r'(?: *WHERE *((?:[^\x20]+ *= *\'[^\27]+\'|[^\x20]+ *= *[^\x20]+)(?: *(?:AND|OR) *(?:[^\x20]+ *= *\'[^\27]+\'|[^\x20]+ *= *[^\x20]+))*);?)'#les quite el ()?     #Le puse un :? al (AND|OR)
 o = r'(?: *ORDER *BY *([^\x20]+ *(?:ASC|DESC));?)'
 select = re.compile(s+i+r'?'+w+r'?'+o+r'?')
 ###
