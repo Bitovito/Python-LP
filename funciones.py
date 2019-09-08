@@ -7,18 +7,34 @@ def condSplit(conds):
         x = c.split('AND')
         lista.append(x)
     return lista
-    
+
+"""
+INSERT
+--------
+Entradas:
+String Nombre de la tabla donde se va a insertar.
+Lista Lista que contiene el nombre de las columnas a insertar.
+Lista Lista que contiene los elementos a insertar en la tabla.
+--------
+Salida:
+Void No retorna nada, solo inserta y muestra un mensaje que avisa que se ha insertado una fila.
+--------
+La funcion abre un archivo, en el cual inserta los elementos de la lista valores, en el orden
+que se especifico en columna.
+""" 
 def INSERT(tabla,columna,valores):
         arch = open(tabla+'.csv','r')
         lista_col = []
         i = 1
         col_aux = []
         val_aux = []
+        #---------------Creo una lista con el nombre de las columnas de la tabla---------------#
         for linea in arch:
                 if i == 1:
                         lista_col = linea.strip().split(',')
                         i+=1
         arch.close()
+        #---------------Ordeno la lista valores para insertarlos correctamente en la tabla---------------#
         for x in lista_col:
                 for y in columna:
                         if y not in lista_col:
@@ -39,6 +55,21 @@ def INSERT(tabla,columna,valores):
         print('Se ha insertado 1 fila.')
         return
 
+"""
+UPDATE
+--------
+Entradas:
+String Nombre de la tabla donde se va a insertar.
+Lista Lista que contiene las columnas, y su valor a cambiar.
+Lista Lista que contiene las condiciones que debe de cumplir la columna para que se pueda actualizar.
+--------
+Salida:
+Void No retorna nada, solo actualiza y muestra un mensaje que avisa que se ha actualizado una fila.
+--------
+La funcion abre un archivo, en el cual actualiza una o mas filas, por los
+valores de la lista cambios, basado en que esta contenga o no los valores especificados en conds.
+""" 
+
 def UPDATE(tabla,cambios,conds):
         arch = open(tabla+'.csv','r')
         lista_arch = []
@@ -49,6 +80,7 @@ def UPDATE(tabla,cambios,conds):
         cumple = 0
         lista_cumple = []
         arch = open(tabla+'.csv','r')
+        #---------------Creo una lista con las posiciones de las filas que cumplen las condiciones---------------#
         for linea in lista_arch:
                 for bloqueOR in conds:
                         for elemento in linea:
@@ -65,6 +97,7 @@ def UPDATE(tabla,cambios,conds):
                 return
         arch.close()
         arch = open(tabla+'.csv','w')
+        #---------------Actualizo la fila correspondiente---------------#
         for x in lista_cumple:
                 for linea in lista_arch:
                         for elemento in linea:
@@ -81,13 +114,24 @@ def UPDATE(tabla,cambios,conds):
         print('Se ha(n) actualizado '+str(len(lista_cumple))+' fila(s).')
         return
 
-
-
-
-
-
-
-
+"""
+Select
+--------
+Entradas:
+Lista Lista que contiene las columnas de la tabla, y su valor a imprimir, si contiene un *, imprime todas las filas que cumplan
+con la condicion especificada en otros.
+String Nombre de la tabla donde se va a insertar.
+Lista Lista de tamanio 3. En la primera posicion, contiene un string con el nombre de la otra tabla que se unira con el
+parametro "tabla". En la segunda posicion, contiene las condiciones que debe cumplir la fila para ser imprimida. Y por ultimo
+la tercera posicion, contiene un string, que especifica por cual elemento de la fila se va a ordernar, ya se de manera ascendiente
+o descendiente.
+--------
+Salida:
+Void No retorna nada, solo imprime las columnas especificadas en columnas.
+--------
+La funcion abre un archivo, en el cual actualiza una o mas filas, por los
+valores de la lista cambios, basado en que esta contenga o no los valores especificados en conds.
+""" 
 
 def Select(columnas, tabla, otros):
         i = 1
@@ -99,17 +143,18 @@ def Select(columnas, tabla, otros):
                         i+=1
         arch.close
         arch = open(tabla+'.csv','r')
-        ###Casos SIN INNER JOIN
+        #---------------Casos SIN INNER JOIN---------------#
         if otros[0] == 'x':
                 for x in columnas:
                         if x != '*' and x not in lista_col:
                                 print('La informacion solicitada no existe.')
                                 arch.close()
                                 return
-                #Casos sin  INNER JOIN y hay WHERE
+                #---------------Casos con WHERE---------------#
                 if otros[1] != 'x':
-                        #Casos INNER JOIN y hay WHERE y hay ORDER BY
+                        #---------------Casos con ORDER BY---------------#
                         if otros[2] != 'x':
+                                #---------------Se imprimen ciertas columnas---------------#
                                 if '*' not in columnas:
                                         lista_elementos = []
                                         lista_filas = []
@@ -119,6 +164,7 @@ def Select(columnas, tabla, otros):
                                         cumple = 0
                                         lista_cumple = []
                                         FILA_N = 0
+                                        #---------------Creo una lista con las posiciones de las filas que cumplen la condicion---------------#
                                         for linea in arch:
                                                 FILA = linea.strip().split(',')
                                                 for bloqueOR in otros[1]:
@@ -131,11 +177,11 @@ def Select(columnas, tabla, otros):
                                                                 lista_cumple.append(FILA_N)
                                                         cumple = 0
                                                 FILA_N += 1
-                                        if len(lista_cumple == 0):
+                                        if len(lista_cumple) == 0:
                                                 print('La informacion solicitada no existe.')
                                                 arch.close()
                                                 return
-
+                                        #---------------Creo dos listas, una con los elementos que cumplen la condicion, y la otra con las filas que cumplen la condicion---------------#
                                         FILA_N = 0
                                         arch.close()
                                         arch = open(tabla+'.csv','r')
@@ -152,6 +198,7 @@ def Select(columnas, tabla, otros):
                                                                                 lista_filas.append(lista_elementos)
                                                                                 lista_elementos = []
                                                 FILA_N+=1
+                                        #---------------Ordeno las listas en base a lo que haya en OrderBy---------------#
                                         for col in columnas:
                                                 if col in otros[2]:
                                                         lugar = columnas.index(col)
@@ -173,6 +220,7 @@ def Select(columnas, tabla, otros):
                                                                                         lista_filas_aux.append('  '.join(elementos))
                                         for x in lista_filas_aux:
                                                 print(x)
+                                #---------------Se imprimen todas las columnas---------------
                                 else:
                                         lista_elementos = []
                                         lista_filas = []
@@ -182,6 +230,7 @@ def Select(columnas, tabla, otros):
                                         cumple = 0
                                         lista_cumple = []
                                         FILA_N = 0
+                                        #---------------Creo una lista con las posiciones de las filas que cumplen la condicion---------------#
                                         for linea in arch:
                                                 FILA = linea.strip().split(',')
                                                 for bloqueOR in otros[1]:
@@ -207,6 +256,7 @@ def Select(columnas, tabla, otros):
                                                         if x == FILA_N:
                                                                 lista_filas.append(FILA)
                                                 FILA_N += 1
+                                        #---------------Ordeno las listas en base a lo que haya en OrderBy---------------#
                                         lista_elementos_aux = []
                                         lista_filas_aux = []
                                         Ordenador = re.split(r' ',otros[2])[0]
@@ -231,8 +281,9 @@ def Select(columnas, tabla, otros):
                                         arch = open(tabla+'.csv','r')
                                         for x in lista_filas_aux:
                                                 print (x)
-                        #Casos sin INNER JOIN y hay WHERE y no hay ORDER BY
-                        else:                                
+                        #---------------Casos sin Order By---------------
+                        else:                        
+                                #---------------Se imprimen ciertas columnas---------------        
                                 if '*' not in columnas:
                                         lista_elementos = []
                                         lista_filas = []
@@ -240,6 +291,7 @@ def Select(columnas, tabla, otros):
                                         cumple = 0
                                         lista_cumple = []
                                         FILA_N = 0
+                                        #---------------Creo una lista con las posiciones de las filas que cumplen la condicion---------------#
                                         for linea in arch:
                                                 FILA = linea.strip().split(',')
                                                 for bloqueOR in otros[1]:
@@ -252,7 +304,7 @@ def Select(columnas, tabla, otros):
                                                                 lista_cumple.append(FILA_N)
                                                         cumple = 0
                                                 FILA_N += 1
-                                        if len(lista_cumple == 0):
+                                        if len(lista_cumple) == 0:
                                                 print('La informacion solicitada no existe.')
                                                 arch.close()
                                                 return
@@ -272,6 +324,7 @@ def Select(columnas, tabla, otros):
                                                 FILA_N += 1
                                         for x in lista_filas:
                                                 print(x)
+                                #---------------Se imprimen todas las columnas---------------
                                 else:
                                         lista_elementos = []
                                         lista_filas = []
@@ -279,6 +332,7 @@ def Select(columnas, tabla, otros):
                                         cumple = 0
                                         lista_cumple = []
                                         FILA_N = 0
+                                        #---------------Creo una lista con las posiciones de las filas que cumplen la condicion---------------#
                                         for linea in arch:
                                                 FILA = linea.strip().split(',')
                                                 for bloqueOR in otros[1]:
@@ -304,9 +358,11 @@ def Select(columnas, tabla, otros):
                                                 FILA_N += 1
                                         for x in lista_filas:
                                                 print(x)
-                                                
+                #---------------Casos sin WHERE---------------                    
                 else:
-                        if otros[2] != 'x':                     #si no hay INNER JOIN y no hay WHERE y hay ORDER BY LISTO Y PROBADO
+                        #---------------Casos con Order By---------------
+                        if otros[2] != 'x':
+                                #---------------Se imprimen ciertas columnas---------------
                                 if '*' not in columnas:
                                         lista_elementos = []
                                         lista_filas = []
@@ -343,7 +399,7 @@ def Select(columnas, tabla, otros):
                                                                                         lista_filas_aux.append('  '.join(elementos))
                                         for x in lista_filas_aux:
                                                 print(x)
-                                        
+                                #---------------Se imprimen todas las columnas---------------
                                 else:
                                         lista_elementos = []
                                         lista_filas = []
@@ -378,10 +434,9 @@ def Select(columnas, tabla, otros):
                                                                         lista_filas_aux.append('  '.join(elementos))
                                         for x in lista_filas_aux:
                                                 print (x)
-                                        
-                                        
-
-                        else:                                   #si no hay INNER JOIN y no hay WHERE y no hay ORDER  SIMPLE LISTOOOOOO y PROBADO
+                        #---------------Casos sin Order By---------------
+                        else:
+                                #---------------Se imprimen ciertas columnas---------------
                                 if '*' not in columnas:
                                         lista_elementos = []
                                         lista_filas = []
@@ -397,7 +452,7 @@ def Select(columnas, tabla, otros):
                                                                         lista_elementos = []
                                         for x in lista_filas:
                                                 print(x)
-                                        
+                                #---------------Se imprimen todas las columnas---------------
                                 else:
                                         lista_elementos = []
                                         lista_filas = []
@@ -411,6 +466,7 @@ def Select(columnas, tabla, otros):
                                                                         lista_elementos = []
                                         for x in lista_filas:
                                                 print (x)
+        #---------------Casos con INNER JOIN---------------
         else:
                 arch2 = open(otros[0]+'.csv','r')
                 lista_col2 = []
@@ -420,11 +476,14 @@ def Select(columnas, tabla, otros):
                                 lista_col2 = linea.strip().split(',')
                                 j+=1
                 arch2.close()
-                arch2 = open(otros[0]+'.csv','r')         
-                if otros[2] != 'x':                     #si hay INNER JOIN y hay ORDER BY
+                arch2 = open(otros[0]+'.csv','r') 
+                #---------------Casos con Order By---------------#    
+                if otros[2] != 'x':
+                        #---------------Se imprimen ciertas columnas---------------#
                         if '*' not in columnas:
                                 lista_elementos = []
                                 lista_filas = []
+                                #---------------Creo una lista donde en cada posicion, estan todos las columnas de ambas tablas, que cumplen con la condicion---------------#
                                 for bloqueOR in otros[1]:
                                         for bloqueAND in bloqueOR:
                                                 And = re.split(r'=',bloqueAND)
@@ -436,13 +495,13 @@ def Select(columnas, tabla, otros):
                                                                         for elemento2 in linea2:
                                                                                 for col in columnas:
                                                                                         if col in lista_col:
-                                                                                                if elemento2 == elemento and elemento not in lista_col2 and elemento not in lista_col and linea.index(elemento) != lista_col.index(col) and linea.index(elemento) == lista_col.index(re.split(r'\.',And[0])[1]) and linea2.index(elemento2) == lista_col2.index(re.split(r'\.',And[1])[1]):
+                                                                                                if elemento2 == elemento and elemento not in lista_col2 and elemento not in lista_col and linea.index(elemento) != lista_col.index(col) and linea.index(elemento) == lista_col.index(re.split(r'\.',And[0])[1].strip()) and linea2.index(elemento2) == lista_col2.index(re.split(r'\.',And[1])[1].strip()):
                                                                                                         lista_elementos.append(linea[lista_col.index(col)])
                                                                                                 if len(lista_elementos) == len(columnas):
                                                                                                         lista_filas.append(lista_elementos)
                                                                                                         lista_elementos=[]
                                                                                         else:
-                                                                                                if elemento2 == elemento and elemento not in lista_col and elemento not in lista_col2 and linea2.index(elemento2) != lista_col2.index(col) and linea.index(elemento) == lista_col.index(re.split(r'\.',And[0])[1]) and linea2.index(elemento2) == lista_col2.index(re.split(r'\.',And[1])[1]):
+                                                                                                if elemento2 == elemento and elemento not in lista_col and elemento not in lista_col2 and linea2.index(elemento2) != lista_col2.index(col) and linea.index(elemento) == lista_col.index(re.split(r'\.',And[0])[1].strip()) and linea2.index(elemento2) == lista_col2.index(re.split(r'\.',And[1])[1].strip()):
                                                                                                         lista_elementos.append(linea2[lista_col2.index(col)])
                                                                                                 if len(lista_elementos) == len(columnas):
                                                                                                         lista_filas.append(lista_elementos)
@@ -472,6 +531,7 @@ def Select(columnas, tabla, otros):
                                                                                 lista_filas_aux.append('  '.join(elementos))
                                 for x in lista_filas_aux:
                                         print(x)
+                        #---------------Se imprimen todas las columnas---------------#
                         else:
                                 lista_col2_1 = []
                                 lineas = 0
@@ -489,6 +549,7 @@ def Select(columnas, tabla, otros):
                                 lista_elementos2 = []
                                 lista_filas = []
                                 lista_filas2 = []
+                                #---------------Creo una lista donde en cada posicion, estan todos las columnas de ambas tablas, que cumplen con la condicion---------------#
                                 for bloqueOR in otros[1]:
                                         for bloqueAND in bloqueOR:
                                                 And = re.split(r'=',bloqueAND)
@@ -499,7 +560,7 @@ def Select(columnas, tabla, otros):
                                                                         linea2 = y.strip().split(',')
                                                                         for elemento2 in linea2:
                                                                                 if elemento not in lista_col and elemento2 not in lista_col2:
-                                                                                        if elemento == elemento2 and lista_col.index(re.split(r'\.',And[0])[1]) == linea.index(elemento) and lista_col2.index(re.split(r'\.',And[1])[1]) == linea2.index(elemento2):
+                                                                                        if elemento == elemento2 and lista_col.index(re.split(r'\.',And[0])[1].strip()) == linea.index(elemento) and lista_col2.index(re.split(r'\.',And[1])[1].strip()) == linea2.index(elemento2):
                                                                                                 lista_elementos.append(linea)
                                                                                                 if len(lista_elementos) == len(columnas):
                                                                                                         lista_filas.append(lista_elementos)
@@ -552,19 +613,18 @@ def Select(columnas, tabla, otros):
                                         for y in x:
                                                 x[x.index(y)] = '  '.join(y)
                                         print('  '.join(x))
-                                        
-                                        
-
-
-                                
-
-                else:                                   #si hay INNER JOIN y no hay ORDER BY
+                #---------------Casos sin Order By---------------#
+                else:
+                        #---------------Se imprimen ciertas columnas---------------#
                         if '*' not in columnas:
                                 lista_elementos = []
                                 lista_filas = []
                                 for bloqueOR in otros[1]:
                                         for bloqueAND in bloqueOR:
                                                 And = re.split(r'=',bloqueAND)
+                                                print(And)
+                                                print(re.split(r'\.',And[0])[1].strip())
+                                                print(re.split(r'\.',And[1])[1].strip())
                                                 for x in arch:
                                                         linea = x.strip().split(',')
                                                         for elemento in linea:
@@ -573,13 +633,13 @@ def Select(columnas, tabla, otros):
                                                                         for elemento2 in linea2:
                                                                                 for col in columnas:
                                                                                         if col in lista_col:
-                                                                                                if elemento2 == elemento and elemento not in lista_col2 and elemento not in lista_col and linea.index(elemento) != lista_col.index(col) and linea.index(elemento) == lista_col.index(re.split(r'\.',And[0])[1]) and linea2.index(elemento2) == lista_col2.index(re.split(r'\.',And[1])[1]):
+                                                                                                if elemento2 == elemento and elemento not in lista_col2 and elemento not in lista_col and linea.index(elemento) != lista_col.index(col) and linea.index(elemento) == lista_col.index(re.split(r'\.',And[0])[1].strip()) and linea2.index(elemento2) == lista_col2.index(re.split(r'\.',And[1])[1].strip()):
                                                                                                         lista_elementos.append(linea[lista_col.index(col)])
                                                                                                 if len(lista_elementos) == len(columnas):
                                                                                                         lista_filas.append(lista_elementos)
                                                                                                         lista_elementos=[]
                                                                                         else:
-                                                                                                if elemento2 == elemento and elemento not in lista_col and elemento not in lista_col2 and linea2.index(elemento2) != lista_col2.index(col) and linea.index(elemento) == lista_col.index(re.split(r'\.',And[0])[1]) and linea2.index(elemento2) == lista_col2.index(re.split(r'\.',And[1])[1]):
+                                                                                                if elemento2 == elemento and elemento not in lista_col and elemento not in lista_col2 and linea2.index(elemento2) != lista_col2.index(col) and linea.index(elemento) == lista_col.index(re.split(r'\.',And[0])[1].strip()) and linea2.index(elemento2) == lista_col2.index(re.split(r'\.',And[1])[1].strip()):
                                                                                                         lista_elementos.append(linea2[lista_col2.index(col)])
                                                                                                 if len(lista_elementos) == len(columnas):
                                                                                                         lista_filas.append(lista_elementos)
@@ -588,6 +648,7 @@ def Select(columnas, tabla, otros):
                                                                 arch2 = open(otros[0]+'.csv','r')
                                 for x in lista_filas:
                                         print('  '.join(x))
+                        #---------------Se imprimen todas las columnas---------------#
                         else:
                                 lista_col2_1 = []
                                 lineas = 0
@@ -636,8 +697,8 @@ def Select(columnas, tabla, otros):
                                         for y in x:
                                                 x[x.index(y)] = '  '.join(y)
                                         print('  '.join(x))
+                arch2.close()        
         arch.close()
-        arch2.close()
 
 def ListArchivo(archivo):
         arch = open(archivo+'.csv','r')
@@ -667,6 +728,7 @@ def ListArchivo(archivo):
 #SELECT * FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol;
 #SELECT * FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol ORDER BY Nota ASC;
 #SELECT * FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol ORDER BY Nota DESC;
+
 
 
 
