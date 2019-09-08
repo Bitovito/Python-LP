@@ -43,7 +43,7 @@ def INSERT(tabla,columna,valores):
                                 return
                         if y == x:
                                 col_aux.append(y)
-                                val_aux.append(valores[columna.index(y)])
+                                val_aux.append(valores[columna.index(y)].strip())
                 if (x not in columna):
                         val_aux.append(' ')
         arch = open(tabla+'.csv','a')
