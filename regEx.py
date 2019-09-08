@@ -3,8 +3,8 @@ from funciones import *
 
 entrada = 'xS'
 ###
-s = r'SELECT *([^\x20]+ *(?: *, *[^\x20]+ *)*) *FROM ([^\x20]+ *);?'
-i = r'(?: *INNER *JOIN *([^\x20]+))'
+s = r'SELECT *([^\x20]+ *(?: *, *[^\x20]+ *)*) *FROM ([^\x20]+) *;?'
+i = r'(?: *INNER *JOIN *([^\x20]+);?)'
 w = r'(?: *WHERE *((?:[^\x20]+ *= *\'[^\27]+\'|[^\x20]+ *= *[^\x20]+)(?: *(?:AND|OR) *(?:[^\x20]+ *= *\'[^\27]+\'|[^\x20]+ *= *[^\x20]+))*);?)'#les quite el ()?     #Le puse un :? al (AND|OR)
 o = r'(?: *ORDER *BY *([^\x20]+ *(?:ASC|DESC));?)'
 select = re.compile(s+i+r'?'+w+r'?'+o+r'?')
@@ -25,24 +25,24 @@ while entrada != 'salir':
         mach = select.search(entrada)
         columnas = re.match(s,entrada).group(1).replace(' ','').split(',')#Lista de strings
         print('Columnas: ',columnas)
-        tabla = re.match(s,entrada).group(2)#Un string
+        tabla = re.match(s,entrada).group(2).strip(';')#Un string
         print('Tabla: ',tabla)
         otros = []
         if re.search(i, entrada):
-            union = re.search(re.compile(i), entrada).group(1)#Un string
+            union = re.search(re.compile(i), entrada).group(1).strip(';')#Un string
             print('Union: ',union)
             otros.append(union)
         else:
             otros.append('x')
         if re.search(w, entrada):
-            conds = re.search(re.compile(w), entrada).group(1)#Lista de listas, cada sub-lista es un or y en cada una van los ANDs (Nombre = algo)
+            conds = re.search(re.compile(w), entrada).group(1).strip(';')#Lista de listas, cada sub-lista es un or y en cada una van los ANDs (Nombre = algo)
             c = condSplit(conds)
             print('Condiciones: ',c)
             otros.append(c)
         else:
             otros.append('x')
         if re.search(o, entrada):
-            orden = re.search(re.compile(o), entrada).group(1) #Un string
+            orden = re.search(re.compile(o), entrada).group(1).strip(';')#Un string
             print('Orden: ',orden)
             otros.append(orden)
         else:
