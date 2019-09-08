@@ -12,9 +12,9 @@ def condSplit(conds):
 INSERT
 --------
 Entradas:
-String Nombre de la tabla donde se va a insertar.
-Lista Lista que contiene el nombre de las columnas a insertar.
-Lista Lista que contiene los elementos a insertar en la tabla.
+String: Nombre de la tabla donde se va a insertar.
+Lista de string y/o: Lista que contiene el nombre de las columnas a insertar.
+Lista de string y/o enteros: Lista que contiene los elementos a insertar en la tabla.
 --------
 Salida:
 Void No retorna nada, solo inserta y muestra un mensaje que avisa que se ha insertado una fila.
@@ -59,9 +59,9 @@ def INSERT(tabla,columna,valores):
 UPDATE
 --------
 Entradas:
-String Nombre de la tabla donde se va a insertar.
-Lista Lista que contiene las columnas, y su valor a cambiar.
-Lista Lista que contiene las condiciones que debe de cumplir la columna para que se pueda actualizar.
+String: Nombre de la tabla donde se va a insertar.
+Lista de string y/o enteros: Lista que contiene las columnas, y su valor a cambiar.
+Lista de string y/o enteros: Lista que contiene las condiciones que debe de cumplir la columna para que se pueda actualizar.
 --------
 Salida:
 Void No retorna nada, solo actualiza y muestra un mensaje que avisa que se ha actualizado una fila.
@@ -118,10 +118,10 @@ def UPDATE(tabla,cambios,conds):
 Select
 --------
 Entradas:
-Lista Lista que contiene las columnas de la tabla, y su valor a imprimir, si contiene un *, imprime todas las filas que cumplan
+Lista: Lista que contiene las columnas de la tabla, y su valor a imprimir, si contiene un *, imprime todas las filas que cumplan
 con la condicion especificada en otros.
-String Nombre de la tabla donde se va a insertar.
-Lista Lista de tamanio 3. En la primera posicion, contiene un string con el nombre de la otra tabla que se unira con el
+String: Nombre de la tabla donde se va a insertar.
+Lista: Lista de tamanio 3. En la primera posicion, contiene un string con el nombre de la otra tabla que se unira con el
 parametro "tabla". En la segunda posicion, contiene las condiciones que debe cumplir la fila para ser imprimida. Y por ultimo
 la tercera posicion, contiene un string, que especifica por cual elemento de la fila se va a ordernar, ya se de manera ascendiente
 o descendiente.
@@ -699,6 +699,19 @@ def Select(columnas, tabla, otros):
                                         print('  '.join(x))
                 arch2.close()        
         arch.close()
+
+"""
+ListArchivo
+--------
+Entradas:
+String Nombre de la tabla.
+--------
+Salida:
+Lista: lista que contiene el archivo.
+--------
+La funcion abre un archivo, para leerlo linea por linea, y cada linea se guarda en una lista
+para luego ser retornada por la funcion
+""" 
 
 def ListArchivo(archivo):
         arch = open(archivo+'.csv','r')
