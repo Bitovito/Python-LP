@@ -28,9 +28,9 @@ def condSplit(conds):
 INSERT
 --------
 Entradas:
-String: Nombre de la tabla donde se va a insertar.
-Lista de string y/o: Lista que contiene el nombre de las columnas a insertar.
-Lista de string y/o enteros: Lista que contiene los elementos a insertar en la tabla.
+String Nombre de la tabla donde se va a insertar.
+Lista Lista que contiene el nombre de las columnas a insertar.
+Lista Lista que contiene los elementos a insertar en la tabla.
 --------
 Salida:
 Void No retorna nada, solo inserta y muestra un mensaje que avisa que se ha insertado una fila.
@@ -75,9 +75,9 @@ def INSERT(tabla,columna,valores):
 UPDATE
 --------
 Entradas:
-String: Nombre de la tabla donde se va a insertar.
-Lista de string y/o enteros: Lista que contiene las columnas, y su valor a cambiar.
-Lista de string y/o enteros: Lista que contiene las condiciones que debe de cumplir la columna para que se pueda actualizar.
+String Nombre de la tabla donde se va a insertar.
+Lista Lista que contiene las columnas, y su valor a cambiar.
+Lista Lista que contiene las condiciones que debe de cumplir la columna para que se pueda actualizar.
 --------
 Salida:
 Void No retorna nada, solo actualiza y muestra un mensaje que avisa que se ha actualizado una fila.
@@ -134,10 +134,10 @@ def UPDATE(tabla,cambios,conds):
 Select
 --------
 Entradas:
-Lista: Lista que contiene las columnas de la tabla, y su valor a imprimir, si contiene un *, imprime todas las filas que cumplan
+Lista Lista que contiene las columnas de la tabla, y su valor a imprimir, si contiene un *, imprime todas las filas que cumplan
 con la condicion especificada en otros.
-String: Nombre de la tabla donde se va a insertar.
-Lista: Lista de tamanio 3. En la primera posicion, contiene un string con el nombre de la otra tabla que se unira con el
+String Nombre de la tabla donde se va a insertar.
+Lista Lista de tamanio 3. En la primera posicion, contiene un string con el nombre de la otra tabla que se unira con el
 parametro "tabla". En la segunda posicion, contiene las condiciones que debe cumplir la fila para ser imprimida. Y por ultimo
 la tercera posicion, contiene un string, que especifica por cual elemento de la fila se va a ordernar, ya se de manera ascendiente
 o descendiente.
@@ -226,16 +226,16 @@ def Select(columnas, tabla, otros):
                                                                 lista_elementos_aux = sorted(lista_elementos_aux)
                                                                 for elemento in lista_elementos_aux:
                                                                         for elementos in lista_filas:
-                                                                                if str(elemento) in elementos:
-                                                                                        lista_filas_aux.append('  '.join(elementos))
+                                                                                if str(elemento) in elementos and elementos not in lista_filas_aux:
+                                                                                        lista_filas_aux.append(elementos)
                                                         else:
                                                                 lista_elementos_aux = sorted(lista_elementos_aux,reverse=True)
                                                                 for elemento in lista_elementos_aux:
                                                                         for elementos in lista_filas:
-                                                                                if str(elemento) in elementos:
-                                                                                        lista_filas_aux.append('  '.join(elementos))
+                                                                                if str(elemento) in elementos and elementos not in lista_filas_aux:
+                                                                                        lista_filas_aux.append(elementos)
                                         for x in lista_filas_aux:
-                                                print(x)
+                                                print('  '.join(x))
                                 #---------------Se imprimen todas las columnas---------------
                                 else:
                                         lista_elementos = []
@@ -285,18 +285,18 @@ def Select(columnas, tabla, otros):
                                                 lista_elementos_aux = sorted(lista_elementos_aux)
                                                 for elemento in lista_elementos_aux:
                                                         for elementos in lista_filas:
-                                                                if str(elemento) in elementos:
-                                                                        lista_filas_aux.append('  '.join(elementos))
+                                                                if str(elemento) in elementos and elementos not in lista_filas_aux:
+                                                                        lista_filas_aux.append(elementos)
                                         else:
                                                 lista_elementos_aux = sorted(lista_elementos_aux,reverse=True)
                                                 for elemento in lista_elementos_aux:
                                                         for elementos in lista_filas:
-                                                                if str(elemento) in elementos:
-                                                                        lista_filas_aux.append('  '.join(elementos))
+                                                                if str(elemento) in elementos and elementos not in lista_filas_aux:
+                                                                        lista_filas_aux.append(elementos)
                                         arch.close()
                                         arch = open(tabla+'.csv','r')
                                         for x in lista_filas_aux:
-                                                print (x)
+                                                print ('  '.join(x))
                         #---------------Casos sin Order By---------------
                         else:                        
                                 #---------------Se imprimen ciertas columnas---------------        
@@ -405,16 +405,16 @@ def Select(columnas, tabla, otros):
                                                                 lista_elementos_aux = sorted(lista_elementos_aux)
                                                                 for elemento in lista_elementos_aux:
                                                                         for elementos in lista_filas:
-                                                                                if str(elemento) in elementos:
-                                                                                        lista_filas_aux.append('  '.join(elementos))
+                                                                                if elemento in elementos and elementos not in lista_filas_aux:
+                                                                                        lista_filas_aux.append(elementos)
                                                         else:
                                                                 lista_elementos_aux = sorted(lista_elementos_aux,reverse=True)
                                                                 for elemento in lista_elementos_aux:
                                                                         for elementos in lista_filas:
-                                                                                if str(elemento) in elementos:
-                                                                                        lista_filas_aux.append('  '.join(elementos))
+                                                                                if elemento in elementos and elementos not in lista_filas_aux:
+                                                                                        lista_filas_aux.append(elementos)
                                         for x in lista_filas_aux:
-                                                print(x)
+                                                print('  '.join(x))
                                 #---------------Se imprimen todas las columnas---------------
                                 else:
                                         lista_elementos = []
@@ -440,16 +440,16 @@ def Select(columnas, tabla, otros):
                                                 lista_elementos_aux = sorted(lista_elementos_aux)
                                                 for elemento in lista_elementos_aux:
                                                         for elementos in lista_filas:
-                                                                if str(elemento) in elementos:
-                                                                        lista_filas_aux.append('  '.join(elementos))
+                                                                if str(elemento) in elementos and elementos not in lista_filas_aux:
+                                                                        lista_filas_aux.append(elementos)
                                         else:
                                                 lista_elementos_aux=sorted(lista_elementos_aux,reverse=True)
                                                 for elemento in lista_elementos_aux:
                                                         for elementos in lista_filas:
-                                                                if str(elemento) in elementos:
-                                                                        lista_filas_aux.append('  '.join(elementos))
+                                                                if str(elemento) in elementos and elementos not in lista_filas_aux:
+                                                                        lista_filas_aux.append(elementos)
                                         for x in lista_filas_aux:
-                                                print (x)
+                                                print ('  '.join(x))
                         #---------------Casos sin Order By---------------
                         else:
                                 #---------------Se imprimen ciertas columnas---------------
@@ -537,16 +537,16 @@ def Select(columnas, tabla, otros):
                                                         lista_elementos_aux = sorted(lista_elementos_aux)
                                                         for elemento in lista_elementos_aux:
                                                                 for elementos in lista_filas:
-                                                                        if str(elemento) in elementos:
-                                                                                lista_filas_aux.append('  '.join(elementos))
+                                                                        if str(elemento) in elementos and elementos not in lista_filas_aux:
+                                                                                lista_filas_aux.append(elementos)
                                                 else:
                                                         lista_elementos_aux = sorted(lista_elementos_aux,reverse=True)
                                                         for elemento in lista_elementos_aux:
                                                                 for elementos in lista_filas:
-                                                                        if str(elemento) in elementos:
-                                                                                lista_filas_aux.append('  '.join(elementos))
+                                                                        if str(elemento) in elementos and elementos not in lista_filas_aux:
+                                                                                lista_filas_aux.append(elementos)
                                 for x in lista_filas_aux:
-                                        print(x)
+                                        print('  '.join(x))
                         #---------------Se imprimen todas las columnas---------------#
                         else:
                                 lista_col2_1 = []
@@ -616,14 +616,14 @@ def Select(columnas, tabla, otros):
                                         for elemento in lista_elementos_aux:
                                                 for linea in lista_filas:
                                                         for archivo in linea:
-                                                                if elemento in archivo:
+                                                                if elemento in archivo and linea not in lista_filas_aux:
                                                                         lista_filas_aux.append(linea)
                                 else:
                                         lista_elementos_aux = sorted(lista_elementos_aux,reverse=True)
                                         for elemento in lista_elementos_aux:
                                                 for linea in lista_filas:
                                                         for archivo in linea:
-                                                                if elemento in archivo:
+                                                                if elemento in archivo and linea not in lista_filas_aux:
                                                                         lista_filas_aux.append(linea)
                                 for x in lista_filas_aux:
                                         for y in x:
@@ -638,9 +638,6 @@ def Select(columnas, tabla, otros):
                                 for bloqueOR in otros[1]:
                                         for bloqueAND in bloqueOR:
                                                 And = re.split(r'=',bloqueAND)
-                                                print(And)
-                                                print(re.split(r'\.',And[0])[1].strip())
-                                                print(re.split(r'\.',And[1])[1].strip())
                                                 for x in arch:
                                                         linea = x.strip().split(',')
                                                         for elemento in linea:
