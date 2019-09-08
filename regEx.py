@@ -73,7 +73,7 @@ while entrada != 'salir':
         conds = re.search(update, entrada).group(3)#Lista de listas, cada sub-lista es un or y en cada una van los ANDs (Nombre = algo)
         c = condSplit(conds)
         print('Condiciones: ',c)
-        UPDATE(tabla,cambios,conds)
+        UPDATE(tabla,cambios,c)
 
     elif not mach and entrada!='salir':
         print('Error de sintaxis. Comando no valido.')
