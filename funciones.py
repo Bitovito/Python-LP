@@ -1,5 +1,21 @@
 import re
-
+"""
+condsSplit
+--------
+Entradas:
+String que corresponde a las condiciones explicitadas luego 
+de la instruccion WHERE a tomar enconsideracion al momento
+de usar SELECT o UPDATE.
+--------
+Salida:
+Lista de listas, cada sub-lista corresponde a condiciones
+que se deben cumplir al mismo tiempo, no asi todas las sub-listas.
+--------
+Separa las condiciones en primera instancia por los OR, cosa de tener en
+cada valor de la lista las condiciones unidas por AND. Luego se itera 
+sobre esta lista para separar las condiciones por los AND, asi quedando 
+las sublistas que, ne cada valor, tienen una condicion a cumplir.
+""" 
 def condSplit(conds):
     lista=[]
     q = conds.split('OR')
