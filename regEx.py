@@ -14,7 +14,7 @@ v = r' *VALUES *\(((?:[^\x20]+|(?:\'[^\x27]+\'))(?: *, *(?:[^\x20]+|(?:\'[^\x27]
 insert = re.compile(ii+v)
 ###
 u = r'UPDATE *([^\x20]+) *SET *([^\x20]+ *= *[\x00-\x7F]+(?:, *[^\x20]+ *= *[\x00-\x7F]+)*)'
-wh = r' *WHERE *([^\x20]+ *= *[\x00-\x7F]+(?: *(?:AND|OR) *[^\x20]+ *= *[\x00-\x7F]+))*;'
+wh = r' *WHERE *([^\x20]+ *= *[\x00-\x7F]+(?: *(?:AND|OR) *[^\x20]+ *= *[\x00-\x7F]+)*);'
 update = re.compile(u+wh)
 ###
 while entrada != 'salir':
