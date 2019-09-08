@@ -22,7 +22,7 @@ update = re.compile(u+wh)
 # los datos y los envio a las funciones respectivas.
 while entrada != 'salir':
     mach = 0
-    entrada = input()
+    entrada = input('Ingrese un comando: ')
 # Depuro los datos de SELECT, los datos opcionales como INNER JOIN 
 # los paso a una lista, donde si no es pedido se marca como una x para
 # evitar problemas con el paso de parametros.
