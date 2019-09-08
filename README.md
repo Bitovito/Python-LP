@@ -1,5 +1,5 @@
-INTEGRANTES: Vicente Alvarez A, 2018735
-             Camilo Gonzalez N, 201873550-7
+INTEGRANTES: Vicente Alvarez A, 201873593-0
+              Camilo Gonzalez N, 201873550-7
 
 
 Instrucciones del programa (Supuestos):
