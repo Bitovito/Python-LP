@@ -736,28 +736,3 @@ def ListArchivo(archivo):
                 lista.append(linea.strip().split(','))
         
         return lista
-
-#INSERT INTO Estudiantes (Nombre,Rol,Telefono) VALUES ('Tu vieja','564831-7',13136969);
-#UPDATE Notas SET Nota=54 WHERE Rol='201673557-4';
-#SELECT Nombre , Nota FROM Notas;
-#SELECT Nombre , Nota FROM Notas ORDER BY Nota ASC;
-#SELECT Nombre , Nota FROM Notas ORDER BY Nota DESC;
-#SELECT * FROM Notas;
-#SELECT * FROM Notas ORDER BY ASC;
-#SELECT * FROM Notas ORDER BY DESC;
-#SELECT Nombre , Nota FROM Notas WHERE Nombre='Gabriel Carmona';
-#SELECT Nombre , Nota FROM Notas WHERE Nombre='Gabriel Carmona' OR Nombre='Clemente Aguilar' ORDER BY Nota ASC; Creo que aqui se va a caer (me di cuenta escribiendo el comando)
-#SELECT Nombre , Nota FROM Notas WHERE Nombre='Gabriel Carmona' ORDER BY Nota DESC;
-#SELECT * FROM Notas WHERE Nombre='Gabriel Carmona';
-#SELECT * FROM Notas WHERE Nombre='Gabriel Carmona' OR Nombre='Clemente Aguilar' ORDER BY Nota ASC; Creo que aqui se va a caer (me di cuenta escribiendo el comando)
-#SELECT * FROM Notas WHERE Nombre='Gabriel Carmona' ORDER BY Nota DESC;
-#SELECT Edad , Nota FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol;
-#SELECT Edad , Nota FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol ORDER BY Nota ASC;
-#SELECT Edad , Nota FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol ORDER BY Nota DESC;
-#SELECT * FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol;
-#SELECT * FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol ORDER BY Nota ASC;
-#SELECT * FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Rol = Notas.Rol ORDER BY Nota DESC;
-
-
-
-
